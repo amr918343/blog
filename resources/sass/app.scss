@@ -4,5 +4,17 @@
 // Variables
 @import 'variables';
 
+
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.post-wrapper {
+
+    width: 60rem;
+    margin: auto;
+    .card {
+        height: auto;
+    }
+}
+
+@import "post.scss";

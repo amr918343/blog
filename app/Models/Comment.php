@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Comment extends Model
 {
     use HasFactory;
+    
+    // Properties and constants
+    const COMMENT_COUNT = 100;
 
     protected $fillable = [
         'body',
@@ -16,11 +19,18 @@ class Comment extends Model
     ];
 
     // Reverse relationships
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function post() {
+    public function post()
+    {
         return $this->belongsTo(Post::class);
     }
+
+    // Special methods [accessors, mutators, scopes, etc]
+    // public function getCreatedAtAttribute($value) {
+    //     return $value->diffForHumans();
+    // }
 }

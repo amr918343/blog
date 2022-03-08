@@ -4,6 +4,10 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use \App\Models\User;
+use \App\Models\Post;
+use \App\Models\Comment;
+use \App\Models\Like;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +18,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        User::factory(User::USER_COUNT)->create();
+        Post::factory(Post::POST_COUNT)->create();
+        Comment::factory(Comment::COMMENT_COUNT)->create();
+        Like::factory(Like::LIKE_COUNT)->create();
     }
 }

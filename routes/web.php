@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+// using controlers
+use App\Http\Controllers\Post\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,10 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('test', function() {
+    return view('posts.show');
+});
+
+// Routes
+Route::get('/', [PostController::class, 'index']);
+Route::get('/post/{slug}', [PostController::class, 'show'])->name('post.show');

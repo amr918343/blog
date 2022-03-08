@@ -9,6 +9,9 @@ class Like extends Model
 {
     use HasFactory;
 
+    // Properties and constants
+    const LIKE_COUNT = 180;
+
     protected $fillable = [
         'status',
         'user_id',
