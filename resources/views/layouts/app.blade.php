@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
 </head>
 
@@ -33,6 +34,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        
 
                     </ul>
 
@@ -53,13 +55,8 @@
                             @endif
                         @else
                             <div class="nav-item dropdown">
-                                <a 
-                                class="nav-link dropdown-toggle"
-                                href="#" 
-                                id="navbarDropdown" 
-                                role="button" 
-                                data-toggle="dropdown" 
-                                aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-expanded="false">
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -74,6 +71,11 @@
                                         @csrf
                                     </form>
                                 </div>
+                            </div>
+                            <div class="nav-item">
+                                <a class="navbar-brand" href="{{ url('/profile') }}">
+                                    Profile
+                                </a>
                             </div>
                         @endguest
                     </ul>
@@ -115,10 +117,12 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js">
     </script>
+    @yield('script')
 </body>
 
 </html>

@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Post;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\CommentRequest;
+use App\Models\Comment;
+use App\Traits\MessageTrait;
 
-class CommentController extends Controller
+class PostCommentController extends Controller
 {
+    use MessageTrait;
     /**
      * Display a listing of the resource.
      *
@@ -32,9 +37,18 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommentRequest $request, $id)
     {
-        //
+        try {
+            $comment = new Comment();
+            $comment->body = $request->body;
+            $comment->user_id = auth()->user()->id;
+            $comment->post_id = $id;
+            $comment->save();
+            return $this->redirectBackWithMessage('success', 'Comment Created Successfully');
+        } catch (\Exception $exp) {
+            return $this->redirectBackWithMessage('error', 'Unhandeled error on commenting');
+        }
     }
 
     /**
