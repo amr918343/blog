@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Events\PostNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Requests\PostRequest;
 use App\Traits\MessageTrait;
+use App\Models\PostNotification as Notification;
 use App\Models\Post;
 
 class UserPostController extends Controller
@@ -30,18 +32,35 @@ class UserPostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        try {
-            $post = new Post();
-            $post->title = $request->title;
-            $post->slug = Str::slug($post->title);
-            $post->body = $request->body;
-            $post->user_id = auth()->user()->id;
-            $post->save();
+        // try {
+        // store post in database
+        $post = new Post();
+        $post->title = $request->title;
+        $post->slug = Str::slug($post->title);
+        $post->body = $request->body;
+        $post->user_id = auth()->user()->id;
+        $post->save();
 
-            return $this->message('user.post.show', 'success', 'Post Created Successfully');
-        } catch(\Exception $exp) {
-            return $this->message('user.post.show', 'error', 'Unhandeled error found, try again later');
-        }
+        $userName = auth()->user()->name;
+        $data = [
+            'userId' => auth()->user()->id,
+            'userName' => $userName,
+            'postSlug' => $post->slug,
+        ];
+
+        // Store data in post_notifications table
+        $notification = new Notification();
+        $notification->user_id = $data['userId'];
+        $notification->name = $data['userName'];
+        $notification->slug = $data['postSlug'];
+        $notification->save();
+        
+        event(new PostNotification($data));
+
+        return $this->message('user.post.show', 'success', 'Post Created Successfully');
+        // } catch(\Exception $exp) {
+        // return $this->message('user.post.show', 'error', 'Unhandeled error found, try again later');
+        // }
     }
 
     /**
@@ -86,7 +105,7 @@ class UserPostController extends Controller
             } else {
                 return $this->message('user.post.show', 'error', 'Problem on updating post');
             }
-        } catch(\Exception $exp) {
+        } catch (\Exception $exp) {
             return $this->message('user.post.show', 'error', 'Unhandeled problem on updating post, please try again later');
         }
     }

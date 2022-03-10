@@ -12,13 +12,6 @@ class LikeController extends Controller
     use MessageTrait;
     public function toggle(Request $request)
     {
-        // $like = Like::firstOrFail()->where([['user_id', $request->user_id], ['post_id' => $request->post_id]]);
-        // if (isset($like)) {
-        //     $like->delete();
-        // } else {
-        //     $request->merge(['status' => true]);
-        //     Like::create($request->all());
-        // }
         try {
             $like = Like::firstOrCreate(
                 [

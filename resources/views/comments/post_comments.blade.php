@@ -4,8 +4,8 @@
         <div class="bg-white">
             <div class=" p-2">
                 <div class="d-flex flex-row align-items-start">
-                    <img class="rounded-circle" style="margin-right: 3px"
-                        src="{{ asset('images/post/marshallIcon.jpg') }}" width="40">
+                    {{-- <img class="rounded-circle" style="margin-right: 3px"
+                        src="{{ asset('images/post/marshallIcon.jpg') }}" width="40"> --}}
                         @include('comments.form_create')
                 </div>
             </div>

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Post;
 
+use App\Events\CommentNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
+
 use App\Traits\MessageTrait;
 
 class PostCommentController extends Controller
@@ -45,6 +47,16 @@ class PostCommentController extends Controller
             $comment->user_id = auth()->user()->id;
             $comment->post_id = $id;
             $comment->save();
+
+            // make data for event
+            $data = [
+                'userName' => auth()->user()->name,
+                'postSlug' => $comment->post()->slug,
+            ];
+            
+            // fire CommentNotification event
+            broadcast(new CommentNotification($data));
+
             return $this->redirectBackWithMessage('success', 'Comment Created Successfully');
         } catch (\Exception $exp) {
             return $this->redirectBackWithMessage('error', 'Unhandeled error on commenting');
