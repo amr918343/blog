@@ -35,16 +35,9 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    // Polymorphic relationships
-    public function image()
-    {
-        return $this->morphOne(Image::class, 'imageable');
-    }
-
-
+    
     // // Special methods [accessors, mutators, scopes, etc]
-    // public function getCreatedAtAttribute($value) {
-    //     return $value->diffForHumans();
-    // }
+    public function isAuthUserLikedPost() {
+        return $this->likes()->where('user_id', auth()->user()->id)->exists();
+    }
 }

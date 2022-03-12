@@ -58,15 +58,4 @@ class User extends Authenticatable
     public function likes() {
         return $this->hasMany(Like::class);
     }
-
-    // Polymorphic relationship
-    public function image() {
-        return $this->morphOne(Image::class, 'imageable');
-    }
-
-    // Has through
-
-    public function postLike() {
-        return $this->hasOneThrough(Like::class, Post::class, 'user_id', 'post_id');
-    }
 }

@@ -1,34 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Post;
+namespace App\BusinessLogic;
 
-use App\Events\CommentNotification;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\BusinessLogic\Interfaces\ICommentService;
 use App\Http\Requests\CommentRequest;
-use App\Models\Comment;
+use App\Events\CommentNotification;
 use App\Models\CommentNotification as Notification;
+use App\Models\Comment;
 use App\Traits\MessageTrait;
-
-class PostCommentController extends Controller
+class CommentService implements ICommentService
 {
+
     use MessageTrait;
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(CommentRequest $request, $id)
+
+    public function add(CommentRequest $request, $id)
     {
-        
         try {
             $comment = new Comment();
             $comment->body = $request->body;
             $comment->user_id = auth()->user()->id;
             $comment->post_id = $id;
             $comment->save();
-            
+
             $creator = $comment->post()->with('user')->first()->user()->first();
             $creatorId = $creator->id;
             // make data for event
@@ -37,6 +30,11 @@ class PostCommentController extends Controller
                 'userName' => auth()->user()->name,
                 'postSlug' => $comment->post->slug,
             ];
+
+            $notification = new Notification();
+            $notification->user_id = $data['creatorId'];
+            $notification->name = $data['userName'];
+            $notification->slug = $data['postSlug'];
             
             // fire CommentNotification event
             event(new CommentNotification($data));
@@ -46,5 +44,4 @@ class PostCommentController extends Controller
             return $this->redirectBackWithMessage('error', 'Unhandeled error on commenting');
         }
     }
-
 }

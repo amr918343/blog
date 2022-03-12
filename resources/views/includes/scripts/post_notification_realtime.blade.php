@@ -15,23 +15,15 @@
     window.Echo.channel('post-notification')
         .listen('.PostNotification', (data) => {
             i+= 1;
-            let counterContainer = `<span id="notificationsBadge" class="badge badge-danger">` + i + `</span>`
+            let counterContainer = `<span id="notificationsBadge" class="badge badge-danger" style="position: relative;border-radius: 50%;left: -10px;width: 15px;">` + i + `</span>`
             let newNotification =
-                `<a id="notificationAucune" class="dropdown-item dropdown-notification" href="http://127.0.0.1:8000/post/` +
+                `<a id="notificationAucune" class="dropdown-item dropdown-notification bg-gray" href="http://127.0.0.1:8000/post/` +
                 data.postSlug + `"><p class="notification-solo text-center">` +
-                data.userName + ` shared a post</p></a>`;
+                data.userName + ` shared a post</p>
+                <small class="text-muted">` + data.postCreatedAt + `</small></a>`;
             $("#notification_container").append(newNotification);
             // if i > 0 show notification counter
             if (i > 0)
                 $("#notification_counter").html(counterContainer);
         });
-
-    // window.Echo.private('comment-notification')
-    //     .listen('.CommentNotification', (data) => {
-    //         var newNotification =
-    //             `<a id="notificationAucune" class="dropdown-item dropdown-notification" href="http://127.0.0.1:8000/post/` +
-    //             data.postSlug + `"><p class="notification-solo text-center">` +
-    //             data.userName + ` has commented on your post.</p></a>`;
-    //         $("#notification_container").append(newNotification);
-    //     });
 </script>

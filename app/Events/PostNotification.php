@@ -16,6 +16,7 @@ class PostNotification implements ShouldBroadcast
     // properties
     public $userId;
     public $postSlug;
+    public $postCreatedAt;
     public $userName;
     /**
      * Create a new event instance.
@@ -28,6 +29,7 @@ class PostNotification implements ShouldBroadcast
         $this->dontBroadcastToCurrentUser();
         $this->userName = $data['userName'];
         $this->postSlug = $data['postSlug'];
+        $this->postCreatedAt = $data['postCreatedAt'];
     }
 
     /**
@@ -50,6 +52,7 @@ class PostNotification implements ShouldBroadcast
             'userId' => $this->userId,
             'userName' => $this->userName,
             'postSlug' => $this->postSlug,
+            'postCreatedAt' => $this->postCreatedAt,
         ];
     }
 }

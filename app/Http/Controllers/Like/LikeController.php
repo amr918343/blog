@@ -2,32 +2,22 @@
 
 namespace App\Http\Controllers\Like;
 
+use App\BusinessLogic\Interfaces\ILikeService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Like;
 use App\Traits\MessageTrait;
+use App\BusinessLogic\LikeService;
 
 class LikeController extends Controller
 {
     use MessageTrait;
-    public function toggle(Request $request)
+    private ILikeService $_likeService;
+    public function __construct(ILikeService $likeService) {
+        $this->_likeService = $likeService;
+    }
+    public function store(Request $request)
     {
-        try {
-            $like = Like::firstOrCreate(
-                [
-                    'user_id' => $request->user_id,
-                    'post_id' => $request->post_id,
-                ],
-                [
-                    'status' => true,
-                    'user_id' => $request->user_id,
-                    'post_id' => $request->post_id,
-                ]
-            );
-
-            return $this->redirectBackWithMessage('success', 'Like');
-        } catch (\Exception $e) {
-            return $this->redirectBackWithMessage('error', 'Unhandeled problem');
-        }
+        return $this->_likeService->toggleLike($request);
     }
 }

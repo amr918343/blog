@@ -15,6 +15,7 @@ class CommentNotification implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     // properties
+    public $creatorId;
     public $userName;
     public $postSlug;
     /**
@@ -24,7 +25,8 @@ class CommentNotification implements ShouldBroadcast
      */
     public function __construct($data)
     {
-        dd('uioj');
+        
+        $this->creatorId = $data['creatorId'];
         $this->userName = $data['userName'];
         $this->postSlug = $data['postSlug'];
     }
@@ -36,7 +38,7 @@ class CommentNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('comment-notification');
+        return new PrivateChannel('comment-notification.' . $this->creatorId);
     }
     public function broadcastAs() {
         return ['CommentNotification'];

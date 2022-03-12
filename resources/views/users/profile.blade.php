@@ -6,11 +6,7 @@
         @include('includes.alert_error')
         <div class="row justify-content-center">
             <div class="col-md-8">
-                
-                <button class="btn btn-info" data-target="#modal_create" data-toggle="modal">Create</button>
-                
-                @include('users.form_create_user_post')
-
+                <a href="{{ route('user.post.create') }}" class="btn btn-info">Create</a>
                 @if ($user_posts->count() > 0)
                     @foreach ($user_posts as $post)
                         <div class="card mt-5 ">
@@ -22,11 +18,9 @@
 
                                     <button class="btn btn-danger mx-2" data-target="#modal_delete{{ $post->id }}"
                                         data-toggle="modal">Delete</button>
-                                    @include('users.form_delete_user_post')
+                                    @include('users.form_delete')
 
-                                    <button class="btn btn-success" data-target="#modal_update{{ $post->id }}"
-                                        data-toggle="modal">Update</button>
-                                    @include('users.form_update_user_post')
+                                    <a href="{{ route('user.post.edit', $post) }}" class="btn btn-success">Edit</a>
 
                                 </div>
                             </div>

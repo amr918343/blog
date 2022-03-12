@@ -22,8 +22,9 @@
 
     <!-- Scripts -->
     @include('includes.scripts.jquery_and_bootstrap')
+    @include('includes.scripts.comment_notification_realtime')
     @include('includes.scripts.post_notification_realtime')
-
+    
     @yield('script')
 </body>
 

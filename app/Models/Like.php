@@ -13,7 +13,6 @@ class Like extends Model
     const LIKE_COUNT = 180;
 
     protected $fillable = [
-        'status',
         'user_id',
         'post_id',
     ];

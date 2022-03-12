@@ -2,12 +2,21 @@
 
 namespace App\Http\Controllers\Post;
 
+use App\BusinessLogic\Interfaces\IPostService;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
+
 use App\Models\Post;
 
 class PostController extends Controller
 {
+
+    private IPostService $_postService;
+
+    public function __construct(IPostService $postService) {
+        $this->_postService = $postService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,31 +24,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(self::PAGE_COUNTER);
+        $posts = $this->_postService->getAll(self::PAGE_COUNTER);
         return view('posts.index', compact('posts'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
@@ -48,14 +35,41 @@ class PostController extends Controller
      */
     public function show($slug)
     {
+        return $this->_postService->getOne($slug);
+    }
 
-        $post = Post::where('slug', $slug)->first();
-        
-        $post_user = $post->user()->first();
-        
-        $post_comments = $post->comments()->with('user')->get();
 
-        return view('posts.show', compact('post', 'post_user', 'post_comments'));
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('users.form_create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(PostRequest $request)
+    {
+       return $this->_postService->add($request);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserPosts()
+    {
+        $user_posts = auth()->user()->posts()->paginate(self::PAGE_COUNTER);
+        return view('users.profile', compact('user_posts'));
     }
 
     /**
@@ -66,7 +80,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        return view('users.form_update', compact('post'));
     }
 
     /**
@@ -76,9 +91,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, $id)
     {
-        //
+        return $this->_postService->update($request, $id);
     }
 
     /**
@@ -89,6 +104,6 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->_postService->delete($id);
     }
 }

@@ -30,7 +30,4 @@ class Comment extends Model
     }
 
     // Special methods [accessors, mutators, scopes, etc]
-    // public function getCreatedAtAttribute($value) {
-    //     return $value->diffForHumans();
-    // }
 }

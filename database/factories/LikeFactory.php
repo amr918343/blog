@@ -20,7 +20,6 @@ class LikeFactory extends Factory
     public function definition()
     {
         return [
-            'status' => $this->faker->randomElement([true, false]),
             'user_id' => rand(1, User::USER_COUNT),
             'post_id' => rand(1, Post::POST_COUNT),
         ];
