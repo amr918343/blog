@@ -19,7 +19,7 @@
     });
     var creatorId = $('#creator_id').data('id');
     // Listen to CommentNotification event
-    window.Echo.private(`comment-notification.` + creatorId)
+    window.Echo.channel(`comment-notification.` + creatorId)
         .listen(".CommentNotification", (data) => {
             let i = 0;
             let newNotification =

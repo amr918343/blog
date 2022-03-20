@@ -30,7 +30,6 @@
                 url: "{{ route('post.like.store') }}",
                 data: likeRequest,
                 success: function(data) {
-                    debugger;
                     document.getElementById('likes_count').innerText = "Likes: " + data;
 
                 },
