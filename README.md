@@ -1,6 +1,6 @@
 ## Using socket.io
 <h3 align="center">After clonning this project follow the instructions below</h3>
-<ul>
+<ul style="list-style-type: none">
 <li>1- Install predis</li>
 <code>composer require predis/predis</code>
 <li> 2- Update .env file</li>
