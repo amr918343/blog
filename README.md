@@ -5,9 +5,6 @@
 <h4>composer require predis/predis</h4>
 <li> 2- Update .env file</li>
 <h4>BROADCAST_DRIVER=redis</h4>
-<h4>DB_DATABASE=laravel</h4>
-<h4>DB_USERNAME=mahedi</h4>
-<h4>DB_PASSWORD=123</h4>
 <h4>REDIS_HOST=127.0.0.1</h4>
 <h4>REDIS_PASSWORD=null</h4>
 <h4>REDIS_PORT=6379</h4>
